@@ -1,16 +1,7 @@
 from PIL import Image
 
 def check_colors(image_path):
-  """
-  This function checks if the color bar in the image displays all 8 colors.
 
-  Args:
-    image_path: Path to the image.
-
-  Returns:
-    True: The color bar displays all 8 colors.
-    False: The color bar does not display all 8 colors.
-  """
 
   # Load the image
   image = Image.open(image_path)
@@ -26,12 +17,15 @@ def check_colors(image_path):
 
   # List of expected colors in the color bar based on the information provided
   expected_colors = [
+      (255, 255, 255),#light
       (249, 251, 0),  # Yellow
       (2, 254, 255),  # Light blue
       (1, 255, 0),  # Green
       (253, 0, 251),  # Purple
       (251, 1, 2),  # Red
       (3, 1, 252),  # Dark blue
+      (0, 0, 0), #back 
+
   ]
 
   # Check the colors of each stripe
@@ -47,8 +41,8 @@ def check_colors(image_path):
 
 
 if __name__ == "__main__":
-  # Replace 'path/to/image.jpg' with the path to your image
-  image_path = "path/to/image.jpg"
+
+  image_path = "EBU_Colorbars.png"
 
   if check_colors(image_path):
     print("The color bar displays all 8 colors.")
