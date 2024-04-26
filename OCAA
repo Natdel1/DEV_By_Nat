@@ -1,0 +1,51 @@
+import React, { useState, useEffect } from "react";
+import Layout from "../layout/Layout";
+import "../Loading/Loading.css";
+import Grid from "@mui/material/Unstable_Grid2";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import axios from "axios";
+import configData from "../../configData.json";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import MultiSelect from "../MultiSelect";
+import { v4 as uuidv4 } from "uuid";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import { keyframes } from "@mui/system";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
+import { useSearchParams } from "react-router-dom";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import Link from "@mui/material/Link";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Stack from "@mui/material/Stack";
+
+function TesterMonitor() {
+  // Loading state
+  const [loading, setLoading] = useState(false);
+  // Component state
+  const [productOptions, setProductOptions] = useState([]);
+  const [productSelectedObj, setproductSelectedObj] = useState(null);
+  const [productSelected, setProductSelected] = useState("");
+  const [testerOptions, setTesterOptions] = useState([]);
+  const [testerSelectedObj, setTesterSelectedObj] = useState([]);
+  const [run, setRun] = useState(false);
+  const intervalSecs = 180;
+  const counterIntervalSecs = 1;
+  const [counter, setCounter] = useState(intervalSecs);
+  const [testersStatus, setTestersStatus] = useState([]);
+  const [testersStatusShow, setTestersStatusShow] = useState([]);
+  const [firstRun, setFirstRun] = useState(false);
+  const [hideOffline, setHideOffline] = useState(true);
+  const [logOps, setLogOps] = useState([]);
+  const [runningCount, setRunningCount] = useState(0);
+  const [idleCount, setIdleCount] = useState(0);
+  const [onlineCount, setOnlineCount] = useState(0);
+
+  // URL Params
+  const [searchParams] = useSearchParams();
+  const modeURLParam = searchParams.get("mode");
+  // Server IP
