@@ -48,8 +48,7 @@ function TesterMonitor() {
   // URL Params
   const [searchParams] = useSearchParams();
   const modeURLParam = searchParams.get("mode");
-  // Server IP
-// Server IP
+ // Server IP
   const serverIP =
     modeURLParam === "local" ? window.location.hostname : configData.BACKEND_IP;
   // console.log(testersStatus);
@@ -80,7 +79,7 @@ function TesterMonitor() {
       testerOptionsReduce.sort(
         (a, b) => a.valueObj.orderNumber - b.valueObj.orderNumber
       );
-// Remove Duplicate array then set state
+      // Remove Duplicate array then set state
       setLogOps(Array.from(new Set(logOp)).filter((k) => !k.includes("N/A")));
       setTesterOptions(testerOptionsReduce);
     }
@@ -95,8 +94,8 @@ function TesterMonitor() {
         .forEach((t) => {
           online += 1;
           t.data.forEach((ts) => {
-            if (ts.current_status === 3) {
-                          running += 1;
+          if (ts.current_status === 3) {
+              running += 1;
             } else {
               idle += 1;
             }
@@ -144,7 +143,8 @@ function TesterMonitor() {
         setLoading(false);
         setCounter(intervalSecs);
       };
-if (!firstRun) {
+
+      if (!firstRun) {
         setFirstRun(true);
         fecthTestersStatus();
       }
@@ -180,7 +180,7 @@ if (!firstRun) {
 
   const handleChangeProduct = (event, newValue) => {
     setproductSelectedObj(newValue);
-    // Cleanup state
+   // Cleanup state
     setTesterSelectedObj([]);
     setTesterOptions([]);
   };
@@ -193,7 +193,8 @@ if (!firstRun) {
     // Cleanup state
     setTesterOptions([]);
   };
-    const handleProductSelectedInputChange = (event, newInputValue) => {
+
+  const handleProductSelectedInputChange = (event, newInputValue) => {
     setProductSelected(newInputValue);
   };
 
@@ -223,7 +224,7 @@ if (!firstRun) {
           <Typography variant="caption" component="div" color="text.secondary">
             {`${Math.round(props.value)}%`}
           </Typography>
-        </Box>
+       </Box>
       </Box>
     );
   }
@@ -234,7 +235,7 @@ if (!firstRun) {
     const blink = keyframes`
         50% {
             opacity: 0;
-       }
+        }
     `;
 
     if (testerStatus.data.length <= 8) {
@@ -269,19 +270,11 @@ if (!firstRun) {
               direction="row"
               // alignItems="center"
               justifyContent="center"
-              columns={colSize}
-            >
-              {Array.from(Array(colSize), (e, index) => {
-                return (
-                  <Grid
-                    container
-                    spacing={0.5}
-                    direction="column"
-                    alignItems="center"
-                    // justifyContent="center"
+                   // justifyContent="center"
                     columns={colSize}
                     key={uuidv4()}
-                  >                    {testerStatus.data
+                  >
+                    {testerStatus.data
                       .slice(
                         configData.dataLength[productSelected][index].start,
                         configData.dataLength[productSelected][index].stop
@@ -316,52 +309,7 @@ if (!firstRun) {
                           buttonColor = {
                             backgroudColor: "#d9534f",
                             color: "#fff",
-                          };
-                        } else if (
-                          testSlotData.current_status === 1 &&
-                          testSlotData.current_station_status === 1 &&
-                          testSlotData.previous_process_plan_result === "PASSED"
-                        ) {
-                          // PASSED
-                          buttonColor = {
-                            backgroudColor: "#5cb85c",
-                            color: "#fff",
-                          };
-                        } else if (
-                          testSlotData.current_status === 1 &&
-
-
-
-
-  const handleProductSelectedInputChange = (event, newInputValue) => {
-    setProductSelected(newInputValue);
-  };
-
-  const getTestersStatus = (e) => {
-    e.preventDefault();
-    setRun(true);
-    setCounter(0);
-    setFirstRun(false);
-  };
-                         testSlotData.current_station_status === 1 &&
-                          testSlotData.previous_process_plan_result === "PASSED"
-                        ) {
-                          // PASSED
-                          buttonColor = {
-                            backgroudColor: "#5cb85c",
-                            color: "#fff",
-                          };
-                        } else if (
-                          testSlotData.current_status === 1 &&
-                          testSlotData.current_station_status === 1 &&
-                          testSlotData.previous_process_plan_result ===
-                            "ABORTED"
-                        ) {
-                          // ABORTED
-                          buttonColor = {
-                            backgroudColor: "#337ab7",
-                            color: "#fff",
-                          };
+                        };
                         } else if (
                           testSlotData.current_status === 3 &&
                           testSlotData.current_station_status === 4
@@ -390,7 +338,7 @@ if (!firstRun) {
                                   testSlotData.current_station_status === 4
                                     ? `${blink} 1s linear infinite`
                                     : "",
-                                                                  }}
+                              }}
                               variant="contained"
                               onClick={() =>
                                 !testSlotData.elapsed_seconds_for_display.includes(
@@ -402,7 +350,7 @@ if (!firstRun) {
                                   : null
                               }
                               target="_blank"
-                            >
+                          >
                               <Typography fontWeight="bold" fontSize={12}>
                                 {!testSlotData.elapsed_seconds_for_display.includes(
                                   "OFFLINE"
@@ -427,11 +375,11 @@ if (!firstRun) {
                   </Grid>
                 );
               })}
-            </Grid>
+          </Grid>
           </CardContent>
         </Card>
       </Grid>
-         );
+    );
   };
 
   return (
@@ -467,7 +415,6 @@ if (!firstRun) {
           </Button>
           <Button
             variant="contained"
-                        variant="contained"
             sx={{
               display: "block",
               textAlign: "center",
@@ -476,7 +423,7 @@ if (!firstRun) {
             }}
           >
             {runningCount} Running
-          </Button>
+         </Button>
         </Stack>
       }
     >
@@ -514,11 +461,11 @@ if (!firstRun) {
                       label="Select Tester"
                       placeholder="Select Tester"
                       selectAllLabel="Select all"
-                                            selectedObj={testerSelectedObj}
+                      selectedObj={testerSelectedObj}
                       onChange={(callBack) => {
                         setTesterSelectedObj(callBack);
                       }}
-                      size="small"
+                    size="small"
                     />
                   </Grid>
                 ) : null}
@@ -564,7 +511,7 @@ if (!firstRun) {
                             Hide Offline
                           </Typography>
                         }
-                                              />
+                      />
                     </FormGroup>
                   </Grid>
                 ) : null}
@@ -597,6 +544,8 @@ if (!firstRun) {
     </Layout>
   );
 }
+
+export default TesterMonito
 
 
 
