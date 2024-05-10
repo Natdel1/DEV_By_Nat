@@ -228,9 +228,30 @@ function TesterMonitor() {
       </Box>
     );
   }
+const renderTesterStatusComponent = (testerStatus) => {
+        const [{ isDragging }, ref] = useDrag(() => ({
+      type: "CARD",
+      item: { testerStatus },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+    }));
 
-  const renderTesterStatusComponent = (testerStatus) => {
-    let colSize = 0;
+    const [{ isHovering }, dropRef] = useDrop(() => ({
+      accept: "CARD",
+      collect: (monitor) => ({
+        isHovering: monitor.isHovering(),
+      }),
+    }));
+
+    const opacity = isDragging ? 0.4 : 1;
+    const style = {
+      display: "flex",
+      flexDirection: "column",
+      opacity,
+      ...(isHovering ? { backgroundColor: "#eee" } : {}),
+    };
+let colSize = 0;
 
     const blink = keyframes`
         50% {
@@ -248,7 +269,6 @@ function TesterMonitor() {
 
     return (
       <Grid key={uuidv4()} xs="auto">
-        <Card>
           {/* <CardContent style={{backgroundColor: "#ddd"}}>*/}
           <CardContent>
             <Typography
@@ -266,11 +286,10 @@ function TesterMonitor() {
             </Typography>
             <Grid
               container
-              spacing={0.5}
-              direction="row"
-              // alignItems="center"
-              justifyContent="center"
-                   // justifyContent="center"
+                spacing={0.5}
+                    direction="column"
+                    alignItems="center"
+                    // justifyContent="center"
                     columns={colSize}
                     key={uuidv4()}
                   >
@@ -309,7 +328,28 @@ function TesterMonitor() {
                           buttonColor = {
                             backgroudColor: "#d9534f",
                             color: "#fff",
-                        };
+                                                      };
+                        } else if (
+                          testSlotData.current_status === 1 &&
+                          testSlotData.current_station_status === 1 &&
+                          testSlotData.previous_process_plan_result === "PASSED"
+                        ) {
+                          // PASSED
+                          buttonColor = {
+                            backgroudColor: "#5cb85c",
+                            color: "#fff",
+                          };
+                        } else if (
+                          testSlotData.current_status === 1 &&
+                          testSlotData.current_station_status === 1 &&
+                          testSlotData.previous_process_plan_result ===
+                            "ABORTED"
+                        ) {
+                          // ABORTED
+                          buttonColor = {
+                            backgroudColor: "#337ab7",
+                            color: "#fff",
+                          };
                         } else if (
                           testSlotData.current_status === 3 &&
                           testSlotData.current_station_status === 4
@@ -350,7 +390,7 @@ function TesterMonitor() {
                                   : null
                               }
                               target="_blank"
-                          >
+                            >
                               <Typography fontWeight="bold" fontSize={12}>
                                 {!testSlotData.elapsed_seconds_for_display.includes(
                                   "OFFLINE"
@@ -360,6 +400,7 @@ function TesterMonitor() {
                               </Typography>
                               <Typography fontWeight="bold" fontSize={12}>
                                 {!testSlotData.elapsed_seconds_for_display.includes(
+                               {!testSlotData.elapsed_seconds_for_display.includes(
                                   "OFFLINE"
                                 )
                                   ? `${testSlotData.current_serial_number}`
@@ -375,13 +416,13 @@ function TesterMonitor() {
                   </Grid>
                 );
               })}
-          </Grid>
+            </Grid>
           </CardContent>
         </Card>
       </Grid>
     );
   };
-
+ฉันต้องการให้  Card สามารถ drag-and-drop
   return (
     <Layout
       title={"Tester Monitor"}
